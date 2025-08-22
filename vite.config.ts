@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import monkey, { cdn } from 'vite-plugin-monkey';
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import monkey, { cdn } from 'vite-plugin-monkey'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,4 +25,4 @@ export default defineConfig({
       },
     }),
   ],
-});
+})
