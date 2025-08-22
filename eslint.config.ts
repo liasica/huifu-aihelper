@@ -2,6 +2,7 @@ import { globalIgnores } from 'eslint/config'
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 import pluginVue from 'eslint-plugin-vue'
 import pluginOxlint from 'eslint-plugin-oxlint'
+import unocss from '@unocss/eslint-config/flat'
 import stylistic from '@stylistic/eslint-plugin'
 
 const INLINE_ELEMENTS = [
@@ -63,6 +64,7 @@ export default defineConfigWithVueTs(
   vueTsConfigs.recommended,
   ...pluginOxlint.configs['flat/recommended'],
 
+  unocss,
   {
     linterOptions: {
       reportUnusedDisableDirectives: 'off',
@@ -72,11 +74,15 @@ export default defineConfigWithVueTs(
       '@stylistic': stylistic,
     },
     rules: {
+      '@stylistic/eol-last': ['error', 'always'],
+      '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
+      '@stylistic/object-curly-spacing': ['error', 'always'],
+      '@stylistic/comma-spacing': ['error', { before: false, after: true }],
+      '@stylistic/quote-props': ['error', 'as-needed'],
+      '@stylistic/indent': ['error', 2],
       semi: ['error', 'never'],
       quotes: ['error', 'single'],
       indent: ['error', 2, { SwitchCase: 1 }],
-      '@stylistic/eol-last': ['error', 'always'],
-      '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': ['error'],
       'no-shadow': 'off',
@@ -92,8 +98,6 @@ export default defineConfigWithVueTs(
           functions: 'always-multiline',
         },
       ],
-      '@stylistic/quote-props': ['error', 'as-needed'],
-      '@stylistic/indent': ['error', 2],
       'vue/no-unused-components': 0,
       'vue/html-indent': ['error', 2],
       'vue/script-indent': ['error', 2, { switchCase: 1 }],
