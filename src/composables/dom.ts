@@ -73,11 +73,11 @@ const waitDomExtend = (span: HTMLSpanElement | undefined) => new Promise<void>(r
 })
 
 /**
- * 向上查找最近的兄弟级 h3 节点
+ * 向上查找最近的兄弟级 title 节点
  * @param el 起始元素
- * @returns 最近的 h3 元素 id，找不到则返回 null
+ * @returns 最近的 title 元素 id，找不到则返回 null
  */
-export const useSearchNearestH3 = (el: Element | null): string | null => {
+export const useSearchNearestTitle = (el: Element | null): string | null => {
   let node: Element | null = el
 
   while (node) {
@@ -85,7 +85,7 @@ export const useSearchNearestH3 = (el: Element | null): string | null => {
     let sibling: Element | null = node.previousElementSibling
 
     while (sibling) {
-      if (sibling.tagName.toLowerCase() === 'h3' && sibling.textContent.trim() === sibling.id) {
+      if (sibling.tagName.toLowerCase().startsWith('h') && sibling.textContent.trim() === sibling.id) {
         return sibling.id
       }
       sibling = sibling.previousElementSibling

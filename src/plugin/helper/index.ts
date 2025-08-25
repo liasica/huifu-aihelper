@@ -5,7 +5,7 @@ import { useSettingStore } from '@/store/setting'
 
 import { showApiKeyModal } from './key'
 import { showQuestionModal } from './question'
-import { useDeepSeek, useSearchNearestH3 } from '@/composables'
+import { useDeepSeek, useSearchNearestTitle } from '@/composables'
 import { showNotification } from './message'
 import { showCodeSnippetModal } from './code'
 
@@ -33,7 +33,7 @@ const HelperPlugin: Plugin = {
           console.info('Question:', question)
 
           // 获取title
-          const title = useSearchNearestH3(table)
+          const title = useSearchNearestTitle(table)
           if (!title) {
             showNotification('未能从table获取到接口title内容', 'error')
             destroy()
