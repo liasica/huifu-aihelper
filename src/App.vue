@@ -3,9 +3,6 @@ import { createVNode, getCurrentInstance, render } from 'vue'
 
 import { useTableExtendSpan, useExpandTable } from '@/composables'
 import ButtonGroup from '@/components/ButtonGroup.vue'
-// import { useSettingStore } from '@/store/setting'
-
-// const $settingStore = useSettingStore()
 
 const { proxy } = getCurrentInstance()!
 proxy?.$docsify.doneEach(() => {

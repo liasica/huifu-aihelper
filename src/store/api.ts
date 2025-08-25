@@ -8,7 +8,6 @@ export const useApiStore = defineStore('api', () => {
   const hash = ref<string>('')
 
   const $waitFor = async (want: string): Promise<string> => {
-    console.info(hash.value, want)
     await until(hash).toMatch(v => v === want)
     return doc.value
   }

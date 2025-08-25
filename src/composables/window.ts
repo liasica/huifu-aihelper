@@ -5,14 +5,14 @@
  */
 export const useOnWindowPropSet = <T>(key: string) => new Promise<T>(resolve => {
   // 已经有了就直接回调
-  if (key in window && window[key] !== undefined) {
-    resolve(window[key])
+  if (key in unsafeWindow && unsafeWindow[key] !== undefined) {
+    resolve(unsafeWindow[key])
     return
   }
 
   // 拦截后续的赋值
   let captured: T
-  Object.defineProperty(window, key, {
+  Object.defineProperty(unsafeWindow, key, {
     configurable: true,
     enumerable: true,
     get() {
@@ -21,7 +21,7 @@ export const useOnWindowPropSet = <T>(key: string) => new Promise<T>(resolve => 
     set(v) {
       captured = v
       // 先恢复成普通数据属性，避免 getter/setter 影响后续库行为
-      Object.defineProperty(window, key, {
+      Object.defineProperty(unsafeWindow, key, {
         value: v,
         writable: true,
         enumerable: true,
