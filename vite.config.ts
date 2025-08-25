@@ -2,7 +2,8 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import monkey, { cdn } from 'vite-plugin-monkey'
+import AutoImport from 'unplugin-auto-import/vite'
+import monkey, { cdn, util } from 'vite-plugin-monkey'
 import UnoCSS from 'unocss/vite'
 
 // https://vitejs.dev/config/
@@ -30,6 +31,11 @@ export default defineConfig(({ mode }) => {
             vue: cdn.jsdelivr('Vue', 'dist/vue.global.prod.js'),
           },
         },
+      }),
+      AutoImport({
+        imports: [
+          util.unimportPreset,
+        ],
       }),
     ],
     resolve: {
