@@ -1,8 +1,8 @@
 export function setupXHRInterceptor(start: XMLHttpRequestInterceptorStart, loaded: XMLHttpRequestInterceptorLoaded) {
   const { open, send } = XMLHttpRequest.prototype
 
-  XMLHttpRequest.prototype.open = function (...args: [string, string | URL, boolean?, string?, string?]) {
-    const url = args[1] as string | URL
+  XMLHttpRequest.prototype.open = function (...args: [string, string, boolean?, string?, string?]) {
+    const url = args[1] as string
     (this as XMLHttpRequestWithRequestURL)._url = url
     start(url)
     return open.apply(this, args as Parameters<typeof open>)

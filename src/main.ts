@@ -1,19 +1,27 @@
 import { createApp } from 'vue'
-import ArcoVue from '@arco-design/web-vue'
 import { createPinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
+import 'vfonts/FiraCode.css'
+import 'highlight.js/styles/github.css'
 import './style/main.scss'
-import '@arco-design/web-vue/dist/arco.css'
 
 import App from './App.vue'
 
 import { createInterceptor } from './plugin/interceptor'
+import { createDocsify } from './plugin/docsify'
+import { createHelper } from './plugin/helper'
 
 const app = createApp(App)
 
-app.use(createPinia())
-app.use(ArcoVue)
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+app.use(pinia)
+
 app.use(createInterceptor())
+app.use(createDocsify())
+app.use(createHelper())
+
 app.mount(
   (() => {
     const app = document.createElement('div')

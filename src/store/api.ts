@@ -1,22 +1,32 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { until } from '@vueuse/core'
+import { useLocationHrefHash, useParseMarkdown } from '@/composables'
 
 export const useApiStore = defineStore('api', () => {
   const doc = ref<string>('')
-  const url = ref<string | URL>('')
+  const hash = ref<string>('')
 
-  const waitFor = async (want: string): Promise<string> => {
-    await until(url).toMatch(v => v === want)
+  const $waitFor = async (want: string): Promise<string> => {
+    console.info(hash.value, want)
+    await until(hash).toMatch(v => v === want)
     return doc.value
   }
 
-  const setState = (apiUrl: string | URL, text?: string) => {
-    url.value = apiUrl
-    if (text !== undefined) {
-      doc.value = text
-    }
+  const $setState = (hashValue: string, docValue: string) => {
+    hash.value = hashValue
+    doc.value = docValue
   }
 
-  return { doc, url, waitFor, setState }
+  const $waitDoc = async (): Promise<string> => {
+    return $waitFor(useLocationHrefHash())
+  }
+
+  const $getDoc = async (title: string): Promise<string | undefined> => {
+    const md = await $waitDoc()
+    const node = useParseMarkdown(md).find(n => n.title === title)
+    return node?.content?.replace(/(^\*[\s\S]+?)\|/, '|')
+  }
+
+  return { doc, hash, $waitFor, $setState, $waitDoc, $getDoc }
 })

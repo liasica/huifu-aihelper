@@ -74,12 +74,25 @@ export default defineConfigWithVueTs(
       '@stylistic': stylistic,
     },
     rules: {
+      // stylistic 规则列表
+      // https://eslint.style/rules
+      '@stylistic/space-infix-ops': ['error'],
       '@stylistic/eol-last': ['error', 'always'],
+      '@stylistic/spaced-comment': ['error', 'always'],
+      '@stylistic/lines-around-comment': ['error', {
+        beforeBlockComment: true,
+      }],
       '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
       '@stylistic/object-curly-spacing': ['error', 'always'],
+      '@stylistic/no-trailing-spaces': ['error', { ignoreComments: true }],
       '@stylistic/comma-spacing': ['error', { before: false, after: true }],
+      '@stylistic/comma-style': ['error', 'last'],
       '@stylistic/quote-props': ['error', 'as-needed'],
       '@stylistic/indent': ['error', 2],
+      '@stylistic/space-in-parens': ['error', 'never'],
+      '@stylistic/no-extra-semi': 'error',
+      '@stylistic/no-multi-spaces': 'error',
+      '@stylistic/array-bracket-spacing': ['error', 'never'],
       semi: ['error', 'never'],
       quotes: ['error', 'single'],
       indent: ['error', 2, { SwitchCase: 1 }],
@@ -88,7 +101,9 @@ export default defineConfigWithVueTs(
       'no-shadow': 'off',
       'arrow-parens': ['error', 'as-needed'],
       'no-confusing-arrow': ['error', { allowParens: true, onlyOneSimpleParam: true }],
-      'comma-dangle': [
+      // eslint-plugin-vue 规则列表
+      // https://eslint.vuejs.org/rules/
+      '@stylistic/comma-dangle': [
         'error',
         {
           arrays: 'always-multiline',
@@ -99,6 +114,7 @@ export default defineConfigWithVueTs(
         },
       ],
       'vue/no-unused-components': 0,
+      'vue/html-closing-bracket-spacing': 'error',
       'vue/html-indent': ['error', 2],
       'vue/script-indent': ['error', 2, { switchCase: 1 }],
       'vue/mustache-interpolation-spacing': [2, 'always'],
@@ -106,9 +122,9 @@ export default defineConfigWithVueTs(
         'error',
         {
           code: 200,
-          template: 400,
-          tabWidth: 4,
-          comments: 500,
+          template: 200,
+          tabWidth: 2,
+          comments: 400,
           // ignorePattern: INLINE_ELEMENTS,
           ignoreHTMLAttributeValues: false,
           ignoreHTMLTextContents: true,
@@ -123,9 +139,9 @@ export default defineConfigWithVueTs(
       'vue/singleline-html-element-content-newline': [
         'error',
         {
-          ignoreWhenNoAttributes: true,
+          ignoreWhenNoAttributes: false,
           ignoreWhenEmpty: true,
-          ignores: [...INLINE_ELEMENTS, 'div'],
+          ignores: [...INLINE_ELEMENTS],
         },
       ],
       'vue/max-attributes-per-line': [
@@ -142,12 +158,14 @@ export default defineConfigWithVueTs(
         singleline: 'beside',
         multiline: 'below',
       }],
-      'vue/html-closing-bracket-newline': [
-        'error',
-        {
+      'vue/html-closing-bracket-newline': ['error', {
+        singleline: 'never',
+        multiline: 'always',
+        selfClosingTag: {
           singleline: 'never',
           multiline: 'always',
         },
+      },
       ],
       'vue/multiline-html-element-content-newline': ['error', {
         ignoreWhenEmpty: true,
@@ -158,7 +176,11 @@ export default defineConfigWithVueTs(
       'vue/require-prop-types': 0,
       'vue/prop-name-casing': 0,
       'vue/multi-word-component-names': 0,
-      'vue/block-tag-newline': ['error', { singleline: 'always', multiline: 'always', maxEmptyLines: 0 }],
+      'vue/block-tag-newline': ['error', {
+        singleline: 'always',
+        multiline: 'always',
+        maxEmptyLines: 0,
+      }],
       // 'import/no-extraneous-dependencies': [
       //   'error',
       //   {

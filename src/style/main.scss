@@ -1,11 +1,53 @@
-#huifu-aihelper {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: white;
+// #huifu-aihelper {
+//   display: flex;
+//   width: calc(100vw - 252px);
+//   height: 100vh;
+//   position: fixed;
+//   top: 0;
+//   left: 252px;
+//   background: white;
+//   z-index: 1000;
+// }
 
-  // z-index: 9999;
+textarea {
+  resize: none;
+}
+
+.hidden {
+  overflow: hidden;
+}
+
+.hljs {
+  background-color: transparent;
+}
+
+.ai-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  width: calc(100% - 64px);
+  margin-top: -16px;
+}
+
+pre, pre code, pre .hljs, code.hljs {
+  white-space: pre !important;
+  word-break: normal !important;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.n-notification-container .n-notification {
+  align-items: center;
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .n-notification__avatar {
+    position: static;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  &.n-notification--show-avatar {
+    .n-notification-main {
+      margin-left: 12px;
+    }
+  }
 }

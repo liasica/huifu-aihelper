@@ -7,7 +7,13 @@ import 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     $interceptor: {
-      getInterceptors: () => Array<XMLHttpRequestInterceptorFunc> | undefined;
-    };
+      getApiDoc: () => Promise<string>
+    }
+    $docsify: {
+      doneEach: (callback: () => void) => void
+    }
+    $helper: {
+      showQuestionModal: (table: HTMLTableElement) => void
+    }
   }
 }

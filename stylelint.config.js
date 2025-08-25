@@ -57,5 +57,6 @@ export default {
     '@stylistic/no-empty-first-line': true,
     '@stylistic/no-eol-whitespace': true,
     '@stylistic/no-missing-end-of-source-newline': true,
+    '@stylistic/declaration-block-semicolon-space-before': 'never',
   },
 }

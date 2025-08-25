@@ -1,0 +1,65 @@
+export const useTableExtendSpan = (dom: HTMLElement) => {
+  return dom.querySelector('tr:not(.tr-collapse-open) > td > .extend')
+}
+
+export async function useExpandTable(table: HTMLTableElement) {
+  if (!table) return
+
+  let dom = useTableExtendSpan(table)?.closest('tr')
+
+  while (dom) {
+    // 查找第一个未展开的 .extend 元素
+    await waitDomExtend(useTableExtendSpan(dom) as HTMLSpanElement | undefined)
+
+    // 移动到下一个节点
+    dom = useTableExtendSpan(table)?.closest('tr')
+  }
+}
+
+const waitDomExtend = (span: HTMLSpanElement | undefined) => new Promise<void>(resolve => {
+  const tr = span?.closest('tr')
+  if (!tr || tr.classList.contains('tr-collapse-open')) {
+    resolve()
+    return
+  }
+
+  const observer = new MutationObserver((mutations: MutationRecord[], observer: MutationObserver) => {
+    mutations.forEach(mutation => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        if ((mutation.target as HTMLTableRowElement).classList.contains('tr-collapse-open')) {
+          resolve()
+          observer.disconnect()
+        }
+      }
+    })
+  })
+  observer.observe(tr, { attributes: true, attributeFilter: ['class'] })
+
+  span?.click()
+})
+
+/**
+ * 向上查找最近的兄弟级 h3 节点
+ * @param el 起始元素
+ * @returns 最近的 h3 元素 id，找不到则返回 null
+ */
+export const useSearchNearestH3 = (el: Element | null): string | null => {
+  let node: Element | null = el
+
+  while (node) {
+    // 向上查找前面的兄弟节点
+    let sibling: Element | null = node.previousElementSibling
+
+    while (sibling) {
+      if (sibling.tagName.toLowerCase() === 'h3' && sibling.textContent.trim() === sibling.id) {
+        return sibling.id
+      }
+      sibling = sibling.previousElementSibling
+    }
+
+    // 没找到就往父级继续查
+    node = node.parentElement
+  }
+
+  return null
+}

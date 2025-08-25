@@ -1,40 +1,35 @@
 <script setup lang="ts">
-import {  getCurrentInstance } from 'vue'
+import { createVNode, getCurrentInstance, render } from 'vue'
 
-import HelloWorld from './components/HelloWorld.vue'
-import viteLogoUrl from './assets/vite.svg'
-import vueLogoUrl from './assets/vue.svg'
+import { useTableExtendSpan, useExpandTable } from '@/composables'
+import ButtonGroup from '@/components/ButtonGroup.vue'
+// import { useSettingStore } from '@/store/setting'
+
+// const $settingStore = useSettingStore()
 
 const { proxy } = getCurrentInstance()!
+proxy?.$docsify.doneEach(() => {
+  const tables = document.querySelectorAll('#main > table') as NodeListOf<HTMLTableElement>
+  tables.forEach(table => {
+    const div = document.createElement('div')
+    div.className = 'ai-btn-wrapper'
 
-console.info(proxy!.$interceptor.getInterceptors())
+    // 创建 Vue 组件的虚拟节点
+    const vnode = createVNode(ButtonGroup, {
+      expand: useTableExtendSpan(table) !== null,
+      handleExpand: () => {
+        useExpandTable(table)
+      },
+      handleAIHelper: async () => {
+        proxy.$helper?.showQuestionModal(table)
+      },
+    })
+
+    // 将组件渲染到 div 中
+    render(vnode, div)
+
+    // 将 div 插入到表格前面
+    table.parentNode?.insertBefore(div, table)
+  })
+})
 </script>
-
-<template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img :src="viteLogoUrl" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img :src="vueLogoUrl" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
