@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { createVNode, getCurrentInstance, render } from 'vue'
+import { getCurrentInstance, h, ref, render } from 'vue'
 
 import { useTableExtendSpan, useExpandTable } from '@/composables'
-import ButtonGroup from '@/components/ButtonGroup.vue'
+import ButtonGroup from '@/components/AiButtonGroup.vue'
 
 const { proxy } = getCurrentInstance()!
 proxy?.$docsify.doneEach(() => {
@@ -11,11 +11,14 @@ proxy?.$docsify.doneEach(() => {
     const div = document.createElement('div')
     div.className = 'ai-btn-wrapper'
 
+    const expanded = ref(false)
     // 创建 Vue 组件的虚拟节点
-    const vnode = createVNode(ButtonGroup, {
-      expand: useTableExtendSpan(table) !== null,
-      handleExpand: () => {
-        useExpandTable(table)
+    const vnode = h(ButtonGroup, {
+      expanded,
+      showExpand: useTableExtendSpan(table) !== null,
+      handleExpand: async () => {
+        expanded.value = !expanded.value
+        await useExpandTable(table, expanded.value)
       },
       handleAIHelper: async () => {
         proxy.$helper?.showQuestionModal(table)

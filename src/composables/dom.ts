@@ -2,8 +2,17 @@ export const useTableExtendSpan = (dom: HTMLElement) => {
   return dom.querySelector('tr:not(.tr-collapse-open) > td > .extend')
 }
 
-export async function useExpandTable(table: HTMLTableElement) {
+/**
+ * 展开表格参数
+ * @param table 要展开的表格
+ * @param expand 是否展开
+ * @returns 
+ */
+export const useExpandTable = async (table: HTMLTableElement, expand: boolean): Promise<void> => {
   if (!table) return
+  if (!expand) {
+    return waitTableCollapse(table)
+  }
 
   let dom = useTableExtendSpan(table)?.closest('tr')
 
@@ -15,6 +24,31 @@ export async function useExpandTable(table: HTMLTableElement) {
     dom = useTableExtendSpan(table)?.closest('tr')
   }
 }
+
+const waitTableCollapse = (table: HTMLTableElement) => new Promise<void>(resolve => {
+  const openRows = table.querySelectorAll('tr.tr-collapse-open')
+  if (openRows.length === 0) {
+    resolve()
+    return
+  }
+
+  openRows.forEach(tr => {
+    const span = tr.querySelector('td > .extend') as HTMLSpanElement | null
+    if (span) {
+      span.click()
+    }
+  })
+
+  // 等待所有行都折叠完成
+  const observer = new MutationObserver((_: MutationRecord[], observer: MutationObserver) => {
+    const stillOpen = table.querySelectorAll('tr.tr-collapse-open')
+    if (stillOpen.length === 0) {
+      resolve()
+      observer.disconnect()
+    }
+  })
+  observer.observe(table, { attributes: true, subtree: true, attributeFilter: ['class'] })
+})
 
 const waitDomExtend = (span: HTMLSpanElement | undefined) => new Promise<void>(resolve => {
   const tr = span?.closest('tr')
