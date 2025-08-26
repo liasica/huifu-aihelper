@@ -29,15 +29,10 @@ const HelperPlugin: Plugin = {
           }
           console.info('DeepSeek Api Key:', key)
 
-          const { question, destroy } = await showQuestionModal()
-          console.info('Question:', question)
-
           // 获取title
           const title = useSearchNearestTitle(table)
           if (!title) {
             showNotification('未能从table获取到接口title内容', 'error')
-            destroy()
-            // TODO: 错误提示
             return
           }
           console.info('获取到 title:', title)
@@ -46,13 +41,15 @@ const HelperPlugin: Plugin = {
           console.info(`完成文档内容获取, 共: ${md?.length || 0}个字符`)
           if (!md) {
             showNotification(`未能获取到${title}对应的文档`, 'error')
-            destroy()
             return
           }
 
           let content = $setting.$getCache(title)
           console.info(`缓存获取, ${content ? '命中' : '未命中'}`)
-          if (!content) {
+
+          const { question, force, destroy } = await showQuestionModal(!!content)
+          console.info(`问题: ${question}, 强制生成: ${force}`)
+          if (!content || force) {
             // 请求AI生成
             content = await useDeepSeek(key, question, md)
             console.info('AI Response:', content)

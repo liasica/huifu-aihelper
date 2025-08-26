@@ -27,8 +27,9 @@ const renderedMarkdown = computed(() => {
 
 const copied = ref(false)
 
+// TODO: 可编辑结构体名称 / 代码块
 const handleCopy = async () => {
-  const content = props.content.replace(/[\s\S]+?```go\n([\s\S]+)?```/, '$1')
+  const content = props.content.replace(/[\s\S]+?``go\n([\s\S]+)?```/, '$1')
   await navigator.clipboard.writeText(content)
   const { message } = createDiscreteApi(['message'])
   message.success('复制成功')

@@ -19,6 +19,7 @@ defineProps<AiButtonGroupProps>()
       size="tiny"
       @click="handleExpand"
       dashed
+      :type="expanded.value ? 'warning' : 'default'"
     >
       {{ expanded.value ? '收起' : '展开' }}
     </NButton>
