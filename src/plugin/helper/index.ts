@@ -4,7 +4,7 @@ import { useApiStore } from '@/store/api'
 import { useSettingStore } from '@/store/setting'
 
 import { showApiKeyModal } from './key'
-import { showQuestionModal } from './question'
+import { showPromptModal } from './prompt'
 import { useDeepSeek, useSearchNearestTitle } from '@/composables'
 import { showNotification } from './message'
 import { showCodeSnippetModal } from './code'
@@ -20,7 +20,7 @@ const HelperPlugin: Plugin = {
     const $setting = useSettingStore()
 
     app.config.globalProperties.$helper = {
-      showQuestionModal: async (table: HTMLTableElement) => {
+      showPromptModal: async (table: HTMLTableElement) => {
         try {
           let key = $setting.$getApiKey()
           if (!key) {
@@ -47,11 +47,13 @@ const HelperPlugin: Plugin = {
           let content = $setting.$getCache(title)
           console.info(`缓存获取, ${content ? '命中' : '未命中'}`)
 
-          const { question, force, destroy } = await showQuestionModal(!!content)
-          console.info(`问题: ${question}, 强制生成: ${force}`)
+          const { prompt, force, destroy } = await showPromptModal(title, md, !!content)
+          console.info(`Prompt: ${prompt}, Force: ${force}`)
+
+          // AI Prompt
           if (!content || force) {
             // 请求AI生成
-            content = await useDeepSeek(key, question, md)
+            content = await useDeepSeek(key, prompt)
             console.info('AI Response:', content)
             if (!content) {
               showNotification('未能获取到AI生成的内容', 'error')

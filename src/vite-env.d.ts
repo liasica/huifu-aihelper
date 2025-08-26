@@ -13,7 +13,7 @@ declare module 'vue' {
       doneEach: (callback: () => void) => void
     }
     $helper: {
-      showQuestionModal: (table: HTMLTableElement) => void
+      showPromptModal: (table: HTMLTableElement) => void
     }
   }
 }

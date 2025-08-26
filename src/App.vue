@@ -21,7 +21,7 @@ proxy?.$docsify.doneEach(() => {
         await useExpandTable(table, expanded.value)
       },
       handleAIHelper: async () => {
-        proxy.$helper?.showQuestionModal(table)
+        proxy.$helper?.showPromptModal(table)
       },
     })
 

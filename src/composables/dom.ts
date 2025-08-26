@@ -77,7 +77,7 @@ const waitDomExtend = (span: HTMLSpanElement | undefined) => new Promise<void>(r
  * @param el 起始元素
  * @returns 最近的 title 元素 id，找不到则返回 null
  */
-export const useSearchNearestTitle = (el: Element | null): string | null => {
+export const useSearchNearestTitle = (el: Element | null): string | undefined => {
   let node: Element | null = el
 
   while (node) {
@@ -95,5 +95,5 @@ export const useSearchNearestTitle = (el: Element | null): string | null => {
     node = node.parentElement
   }
 
-  return null
+  return undefined
 }
