@@ -27,7 +27,6 @@ export const showPromptModal = (title: string, md: string, hasCache: boolean): P
     contentClass: 'ai-input-content',
     closable: false,
     maskClosable: false,
-    negativeText: '取消',
     closeOnEsc: true,
     loading: loading.value,
     content: () => h('div', {
@@ -71,6 +70,7 @@ export const showPromptModal = (title: string, md: string, hasCache: boolean): P
         disabled: loading.value,
         onClick: () => {
           loading.value = false
+          dg.destroy()
         },
       }, '取消'),
       h(NButton, {
