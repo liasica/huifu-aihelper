@@ -4,6 +4,8 @@ import { getCurrentInstance, h, ref, render } from 'vue'
 import { useTableExtendSpan, useExpandTable } from '@/composables'
 import ButtonGroup from '@/components/AiButtonGroup.vue'
 
+// TODO: 区分具体的table内容
+// 例如: https://paas.huifu.com/open/doc/api/#/yhgl/api_yhgl_ywrzxg?id=%e5%bc%82%e6%ad%a5%e8%bf%94%e5%9b%9e%e5%8f%82%e6%95%b0
 const { proxy } = getCurrentInstance()!
 proxy?.$docsify.doneEach(() => {
   const tables = document.querySelectorAll('#main > table') as NodeListOf<HTMLTableElement>
