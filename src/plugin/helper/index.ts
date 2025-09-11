@@ -44,7 +44,7 @@ const HelperPlugin: Plugin = {
             return
           }
 
-          let content = $setting.$getCache(title)
+          let content = $setting.$getCache(md)
           console.info(`缓存获取, ${content ? '命中' : '未命中'}`)
 
           const { prompt, force, destroy } = await showPromptModal(title, md, !!content)
